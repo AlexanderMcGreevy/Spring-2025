@@ -1,3 +1,4 @@
+package boardgame;
 public class BoardLocation {
     private String name;
     private int location;

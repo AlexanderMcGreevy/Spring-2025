@@ -1,3 +1,4 @@
+package boardgame;
 import java.awt.*;
 public class PropertyLocation  extends BoardLocation{
 

@@ -1,3 +1,4 @@
+package boardgame;
 public interface IMover {
     public void moveSpaces()
         throws Exception;
