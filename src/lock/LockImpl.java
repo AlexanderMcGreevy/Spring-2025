@@ -35,6 +35,10 @@ public class LockImpl implements IDialLock{
      */
     @Override
     public void left(int ticks) {
+        this.tick-=ticks;
+        if (this.tick<0){
+            this.tick=40+this.tick;
+        }
 
     }
 
@@ -45,6 +49,7 @@ public class LockImpl implements IDialLock{
      */
     @Override
     public void right(int ticks) {
+        this.tick=(this.tick+ticks)%40;
 
     }
 
@@ -65,6 +70,6 @@ public class LockImpl implements IDialLock{
      */
     @Override
     public boolean pull() {
-        return false;
+        return secret1 == input1 && secret2 == input2 && secret3 == input3;
     }
 }
