@@ -1,4 +1,6 @@
 package boardgame;
+import src.boardgame.IMover;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
