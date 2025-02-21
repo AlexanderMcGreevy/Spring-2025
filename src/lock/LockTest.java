@@ -1,5 +1,5 @@
 package src.lock;
-
+//This class is wrong, include the correct implementation in the LockImpl class
 public class LockTest {
     public static void main(String[] args) {
         LockImpl lock = new LockImpl(10, 25, 15);
