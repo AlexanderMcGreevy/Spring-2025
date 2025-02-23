@@ -1,3 +1,4 @@
+
 package src.lock;
 
 import javax.swing.*;
@@ -8,42 +9,43 @@ public class LockGUI {
     private JSpinner spinner3;
     private JButton SUBMITButton;
     private JButton resetButton;
-    public JLabel label1;
+    private JLabel label1;
+
+    private IDialLock lock; // Persistent lock instance
 
     public LockGUI() {
+        initComponents(); // Ensure GUI components are initialized
+        lock = new LockImpl(10, 25, 15);  // Set a predefined lock combination
+
         resetButton.addActionListener(e -> {
-            spinner1.setValue(0);
-            spinner2.setValue(0);
-            spinner3.setValue(0);
-            label1.setText("Lock is closed");
+            lock.reset();
+            label1.setText("Lock is reset to 0");
         });
 
         SUBMITButton.addActionListener(e -> {
-            int secret1 = (int) spinner1.getValue();
-            int secret2 = (int) spinner2.getValue();
-            int secret3 = (int) spinner3.getValue();
+            lock.right((int) spinner1.getValue());
+            lock.left((int) spinner2.getValue());
+            lock.right((int) spinner3.getValue());
 
-            IDialLock lock = new LockImpl(secret1, secret2, secret3);
             if (lock.pull()) {
-                label1.setText("Lock is open");
+                label1.setText("Unlocked!");
             } else {
-                label1.setText("Lock is closed");
+                label1.setText("Still Locked. Try again.");
             }
         });
     }
 
-    // Main method to run the GUI
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Lock GUI");
-            frame.setContentPane(new LockGUI().createContentPane());
+            LockGUI lockGui = new LockGUI();
+            frame.setContentPane(lockGui.createContentPane());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
         });
     }
 
-    // Create ContentPane from the form
     private JPanel createContentPane() {
         JPanel panel = new JPanel();
         panel.add(spinner1);
@@ -53,5 +55,14 @@ public class LockGUI {
         panel.add(resetButton);
         panel.add(label1);
         return panel;
+    }
+
+    private void initComponents() {
+        spinner1 = new JSpinner(new SpinnerNumberModel(0, 0, 39, 1));
+        spinner2 = new JSpinner(new SpinnerNumberModel(0, 0, 39, 1));
+        spinner3 = new JSpinner(new SpinnerNumberModel(0, 0, 39, 1));
+        SUBMITButton = new JButton("Submit");
+        resetButton = new JButton("Reset");
+        label1 = new JLabel("Lock is closed");
     }
 }
